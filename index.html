@@ -423,7 +423,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
     <div><div class="fh-name">Mario</div><div class="fh-role">Director Financiero & Tecnología</div></div>
     <div class="fh-kpis">
       <div class="fk"><div class="fk-val" id="m-fc-head">0</div><div class="fk-lbl">Clientes finanzas</div></div>
-      <div class="fk"><div class="fk-val" id="m-ts-head">0%</div><div class="fk-lbl">Tiempo ahorrado</div></div>
+      <div class="fk"><div class="fk-val" id="m-ac-head">0</div><div class="fk-lbl">Automatizaciones</div></div>
       <div class="fk"><div class="fk-val" id="m-t-head">0</div><div class="fk-lbl">Herramientas AI</div></div>
     </div>
   </div>
@@ -433,9 +433,10 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
     <div class="rr">
       <div class="card">
         <div class="card-title" style="margin-bottom:12px">KPIs clave</div>
-        <div class="kt-item"><div class="kt-row"><span class="kt-name">Clientes Orden Financiero</span><span class="kt-val"><span onclick="editKPI('mario','finance_clients',this)">0</span> / 6</span></div><div class="ktbar"><div class="ktfill" id="k-mario-fc" style="width:0%;background:#2980B9"></div></div></div>
-        <div class="kt-item"><div class="kt-row"><span class="kt-name">Reducción tiempo diagnóstico</span><span class="kt-val"><span onclick="editKPI('mario','time_saved',this)">0</span>% / 60%</span></div><div class="ktbar"><div class="ktfill" id="k-mario-ts" style="width:0%;background:#2980B9"></div></div></div>
-        <div class="kt-item"><div class="kt-row"><span class="kt-name">Herramientas AI entregadas</span><span class="kt-val"><span onclick="editKPI('mario','tools',this)">0</span> / 1</span></div><div class="ktbar"><div class="ktfill" id="k-mario-t" style="width:0%;background:#2980B9"></div></div></div>
+        <div class="kt-item"><div class="kt-row"><span class="kt-name">Clientes Orden Financiero (Alegra)</span><span class="kt-val"><span onclick="editKPI('mario','finance_clients',this)">0</span> / 6</span></div><div class="ktbar"><div class="ktfill" id="k-mario-fc" style="width:0%;background:#2980B9"></div></div></div>
+        <div class="kt-item"><div class="kt-row"><span class="kt-name">Reducción diagnóstico inicial (3h → 1h)</span><span class="kt-val"><span onclick="editKPI('mario','time_saved',this)">0</span>% / 60%</span></div><div class="ktbar"><div class="ktfill" id="k-mario-ts" style="width:0%;background:#2980B9"></div></div></div>
+        <div class="kt-item"><div class="kt-row"><span class="kt-name">Herramientas AI entregadas</span><span class="kt-val"><span onclick="editKPI('mario','tools',this)">0</span> / 4</span></div><div class="ktbar"><div class="ktfill" id="k-mario-t" style="width:0%;background:#2980B9"></div></div></div>
+        <div class="kt-item"><div class="kt-row"><span class="kt-name">Clientes con automatización activa</span><span class="kt-val"><span onclick="editKPI('mario','automation_clients',this)">0</span> / 4</span></div><div class="ktbar"><div class="ktfill" id="k-mario-ac" style="width:0%;background:#1ABC9C"></div></div></div>
         <div class="kt-item"><div class="kt-row"><span class="kt-name">Contratos activos ($M)</span><span class="kt-val"><span onclick="editKPI('mario','contratos',this)">0</span> / $7.5M</span></div><div class="ktbar"><div class="ktfill" id="k-mario-ct" style="width:0%;background:#2980B9"></div></div></div>
       </div>
       <div class="card"><div class="card-title" style="margin-bottom:8px">Notas del mes</div><textarea class="notes" id="n-mario" oninput="saveNote('mario',this.value)" placeholder="Victorias, bloqueos, tareas pendientes..."></textarea></div>
@@ -548,10 +549,10 @@ const OBJ = {
     4:["Consultora reconocida en contenido PYME","8+ clientes de contenido recurrentes","Metodología propia documentada","Primer webinar / evento de marca"]
   },
   mario:{
-    1:["Dominar Claude Code para análisis financiero","Construir modelo financiero interno","Crear plantilla de diagnóstico financiero PYME","Aprender Python básico para automatización","Entregar primer diagnóstico a cliente piloto"],
-    2:["3 clientes activos en Orden Financiero","Dashboard financiero automatizado por cliente","Integrar reportes con Through Air","Modelo de valoración para Acceso Capital"],
-    3:["Herramienta AI de diagnóstico auto-guiada","Modelo de proyección a 3 años para PYME","6+ clientes en servicios financieros","Reducir tiempo diagnóstico 60% con automación"],
-    4:["Suite de herramientas financieras propias","Certificación FMVA (Financial Modeling)","Liderar desarrollo de producto tech","Pipeline hacia CRM AI con Through Air"]
+    1:["Dominar Claude Code para automatizaciones de clientes","Configurar Alegra para Pymia (plan de cuentas + facturación electrónica DIAN)","Crear proceso de onboarding contable PYME con Alegra","Entregar primer diagnóstico financiero a cliente piloto","Entregar 1ra automatización activa a cliente (leads o contenido)"],
+    2:["3 clientes activos en Orden Financiero con Alegra","2 clientes con automatización de procesos activa","Conectar reportes Alegra con Google Sheets por cliente","Reducir tiempo de diagnóstico inicial de 3 hrs a 1 hr"],
+    3:["6+ clientes en servicios financieros (Alegra gestionado)","4 clientes con automatización activa","Herramienta AI de diagnóstico financiero auto-guiada","Modelo de proyección a 3 años para cliente PYME"],
+    4:["Suite completa: contabilidad + automatización + contenido por cliente","Certificación FMVA (Financial Modeling & Valuation)","Liderar desarrollo de herramientas tech propias de Pymia","Pipeline hacia CRM con IA integrada para clientes"]
   },
   samuel:{
     1:["Crear sistema de prospección con Claude Code","Configurar HubSpot CRM gratuito","Cerrar primeros 3 clientes piloto","Definir propuesta de valor por segmento PYME","Certificación HubSpot Sales (gratuita)"],
@@ -600,7 +601,7 @@ function mkState(){
     },
     founders:{
       oscar: {q:1,checks:{1:[],2:[],3:[],4:[]},kpis:{followers:0,content_clients:0,leads:0,contratos:0},note:''},
-      mario: {q:1,checks:{1:[],2:[],3:[],4:[]},kpis:{finance_clients:0,time_saved:0,tools:0,contratos:0},note:''},
+      mario: {q:1,checks:{1:[],2:[],3:[],4:[]},kpis:{finance_clients:0,time_saved:0,tools:0,automation_clients:0,contratos:0},note:''},
       samuel:{q:1,checks:{1:[],2:[],3:[],4:[]},kpis:{active_clients:0,pipeline:0,close_rate:0,crosssells:0},note:''},
       david: {q:1,checks:{1:[],2:[],3:[],4:[]},kpis:{nps:0,projects:0,churn:0,sops:0},note:''},
       juanjo:{q:1,checks:{1:[],2:[],3:[],4:[]},kpis:{mrr:0,growth:0,cities:1,high_value:0},note:''}
@@ -812,10 +813,11 @@ const KPI_CFG = {
     contratos:   {max:4.5, bar:'k-oscar-ct',heads:[],             fmt:v=>v}
   },
   mario:{
-    finance_clients:{max:6, bar:'k-mario-fc',heads:['m-fc-head'], fmt:v=>v},
-    time_saved:  {max:60,  bar:'k-mario-ts',heads:['m-ts-head'],  fmt:v=>v+'%'},
-    tools:       {max:1,   bar:'k-mario-t', heads:['m-t-head'],   fmt:v=>v},
-    contratos:   {max:7.5, bar:'k-mario-ct',heads:[],              fmt:v=>v}
+    finance_clients:   {max:6,   bar:'k-mario-fc',heads:['m-fc-head'], fmt:v=>v},
+    time_saved:        {max:60,  bar:'k-mario-ts',heads:[],             fmt:v=>v+'%'},
+    tools:             {max:4,   bar:'k-mario-t', heads:['m-t-head'],   fmt:v=>v},
+    automation_clients:{max:4,   bar:'k-mario-ac',heads:['m-ac-head'],  fmt:v=>v},
+    contratos:         {max:7.5, bar:'k-mario-ct',heads:[],             fmt:v=>v}
   },
   samuel:{
     active_clients:{max:20, bar:'k-samuel-ac',heads:['s-ac-head'], fmt:v=>v},
