@@ -17,7 +17,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
 /* SIDEBAR */
 .sb{width:var(--sw);min-height:100vh;background:var(--navy);position:fixed;top:0;left:0;display:flex;flex-direction:column;z-index:100}
 .sb-logo{padding:20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}
-.sb-logo img{height:36px;width:auto;object-fit:contain}
+.sb-logo img{height:34px;width:auto;max-width:140px;object-fit:contain;border-radius:8px;padding:5px 10px;background:rgba(255,255,255,0.95);box-shadow:0 1px 6px rgba(0,0,0,.25)}
 .logo-fallback{font-size:22px;font-weight:900;color:#fff;letter-spacing:3px;display:none}
 .logo-fallback span{color:var(--gold)}
 .sb-month{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
@@ -139,7 +139,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
 .mob-bar{display:none;position:fixed;top:0;left:0;right:0;height:54px;background:var(--navy);z-index:200;align-items:center;padding:0 16px;gap:12px;border-bottom:2px solid var(--gold)}
 .mob-logo{font-size:18px;font-weight:900;color:#fff;letter-spacing:2px;flex:1}
 .mob-logo span{color:var(--gold)}
-.mob-logo img{height:28px;width:auto;object-fit:contain;vertical-align:middle}
+.mob-logo img{height:28px;width:auto;max-width:110px;object-fit:contain;vertical-align:middle;border-radius:6px;padding:3px 8px;background:rgba(255,255,255,0.95)}
 .mob-ham{background:none;border:none;cursor:pointer;padding:6px;display:flex;flex-direction:column;gap:4px}
 .mob-ham span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all .3s}
 
