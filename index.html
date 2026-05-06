@@ -135,6 +135,37 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
 /* SECTION */
 .sec{display:none}.sec.active{display:block}
 
+/* FINANCIAL PLAN */
+.fp-tier-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.fp-tier{background:#F8F9FA;border-radius:8px;padding:14px 10px;text-align:center;border:2px solid transparent;transition:border .15s}
+.fp-tier:hover{border-color:var(--gold)}
+.fp-tier-name{font-size:9px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.fp-tier-price{font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.fp-tier-count{font-size:28px;font-weight:800;color:var(--gold);cursor:pointer;line-height:1}
+.fp-tier-count:hover{color:var(--navy)}
+.fp-tier-sub{font-size:9px;color:var(--mid);margin-top:4px}
+.fp-pl-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F4F6F9;font-size:12px}
+.fp-pl-row:last-child{border-bottom:none}
+.fp-pl-row.subtotal{font-weight:700;font-size:13px;border-top:1px solid #E8ECF0;border-bottom:none;padding-top:10px;margin-top:2px}
+.fp-pl-row.grand{font-weight:800;font-size:14px;border-top:2px solid #E8ECF0;padding-top:11px;margin-top:4px;border-bottom:none}
+.fp-tool-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #F4F6F9}
+.fp-tool-row:last-child{border-bottom:none}
+.fp-tool-ic{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.fp-tool-name{font-weight:600;color:var(--navy);font-size:12px}
+.fp-tool-area{font-size:10px;color:var(--mid);margin-top:1px}
+.fp-tool-note{font-size:9px;color:#B0BBC5;margin-top:1px}
+.fp-cost-val{font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;color:var(--dark)}
+.fp-cost-val:hover{color:var(--gold)}
+.fp-cost-free{font-size:11px;font-weight:600;color:var(--green)}
+.proj-table{width:100%;border-collapse:collapse;font-size:12px}
+.proj-table th{text-align:center;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;padding:8px;border-bottom:2px solid #E8ECF0;background:#F8F9FA}
+.proj-table th:first-child{text-align:left}
+.proj-table td{padding:9px 8px;border-bottom:1px solid #F4F6F9;text-align:center}
+.proj-table td:first-child{text-align:left;font-weight:600}
+.proj-table tr.be-row td{background:#FFFBF0}
+.proj-table tr:last-child td{border-bottom:none;font-weight:700}
+@media(max-width:768px){.fp-tier-grid{grid-template-columns:repeat(2,1fr)}}
+
 /* MOBILE TOP BAR */
 .mob-bar{display:none;position:fixed;top:0;left:0;right:0;height:54px;background:var(--navy);z-index:200;align-items:center;padding:0 16px;gap:12px;border-bottom:2px solid var(--gold)}
 .mob-logo{font-size:18px;font-weight:900;color:#fff;letter-spacing:2px;flex:1}
@@ -281,6 +312,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
   <nav class="sb-nav">
     <div class="sb-section">Empresa</div>
     <div class="nb active" onclick="nav('dashboard',this)"><span class="nb-av">📊</span>Dashboard General</div>
+    <div class="nb" onclick="nav('financiero',this)"><span class="nb-av">💰</span>Planeación Financiera</div>
     <div class="sb-section">Founders</div>
     <div class="nb" onclick="nav('oscar',this)"><span class="nb-av">🎯</span>Oscar</div>
     <div class="nb" onclick="nav('mario',this)"><span class="nb-av">📈</span>Mario</div>
@@ -525,6 +557,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
   </div>
 </section>
 
+<!-- ═══ FINANCIERO ═══ -->
+<section id="s-financiero" class="sec">
+  <div class="ph"><h1>Planeación Financiera</h1><p>P&L en tiempo real · Clic en clientes o costos para editar · Se guarda automáticamente</p></div>
+  <div id="finplan-content"></div>
+</section>
+
 </main>
 
 <!-- MOBILE BOTTOM NAV -->
@@ -605,12 +643,19 @@ function mkState(){
       samuel:{q:1,checks:{1:[],2:[],3:[],4:[]},kpis:{active_clients:0,pipeline:0,close_rate:0,crosssells:0},note:''},
       david: {q:1,checks:{1:[],2:[],3:[],4:[]},kpis:{nps:0,projects:0,churn:0,sops:0},note:''},
       juanjo:{q:1,checks:{1:[],2:[],3:[],4:[]},kpis:{mrr:0,growth:0,cities:1,high_value:0},note:''}
+    },
+    finplan:{
+      c_basic:0, c_std:0, c_prem:0, c_auto:0, c_mktg:0,
+      tc_claude_code:0.43, tc_claude_pro:0.09, tc_claude_api:0.22,
+      tc_alegra:0.20, tc_gworkspace:0.13, tc_falai:0.13,
+      tc_notion:0.17, tc_linkedin:0.13, tc_meta_ads:0.86, tc_misc:0.10
     }
   };
 }
 let ST = loadState() || mkState();
 // ensure all founders exist
 FOUNDERS.forEach(f=>{if(!ST.founders[f])ST.founders[f]=mkState().founders[f]});
+if(!ST.finplan) ST.finplan=mkState().finplan;
 function save(){localStorage.setItem('pymia_v2',JSON.stringify(ST))}
 
 // ── MOBILE ────────────────────────────────────────────────────
@@ -632,7 +677,8 @@ function nav(id,el){
   document.querySelectorAll('.nb').forEach(n=>n.classList.remove('active'));
   if(el)el.classList.add('active');
   setMobNav(id);
-  if(id!=='dashboard') renderFounder(id);
+  if(id==='financiero') renderFinplan();
+  else if(id!=='dashboard') renderFounder(id);
 }
 
 // ── MONTH ─────────────────────────────────────────────────────
@@ -861,6 +907,161 @@ function updateKPIBars(f){
   });
 }
 function saveNote(f,v){ST.founders[f].note=v; save()}
+
+// ── FINANCIAL PLAN ────────────────────────────────────────────
+const FP_TOOLS = [
+  {key:'tc_claude_code', ic:'🤖', bg:'#EBF5FB', name:'Claude Code',       area:'Mario + Juan Jo',   note:'2 usuarios × $100 USD/mes — automatizaciones, agentes y desarrollo'},
+  {key:'tc_claude_pro',  ic:'🤖', bg:'#EBF5FB', name:'Claude Pro / Max',  area:'Oscar',              note:'1 usuario × $20 USD/mes — generación de contenido AI'},
+  {key:'tc_claude_api',  ic:'⚡', bg:'#E8F8F5', name:'Claude API',        area:'Mario (clientes)',   note:'Uso variable — diagnósticos financieros AI por cliente'},
+  {key:'tc_alegra',      ic:'📊', bg:'#FFF8E7', name:'Alegra Contador',   area:'Mario',              note:'Plan multi-empresa — instalación + gestión para clientes'},
+  {key:'tc_gworkspace',  ic:'📁', bg:'#EAFAF1', name:'Google Workspace',  area:'Todo el equipo',     note:'5 usuarios × $6 USD/mes — Drive, GAS, Meet, Calendar, Gmail'},
+  {key:'tc_falai',       ic:'🎨', bg:'#FDEDEC', name:'Fal.ai',            area:'Oscar',              note:'Uso variable — imágenes AI para contenido y campañas'},
+  {key:'tc_notion',      ic:'📝', bg:'#F5EEF8', name:'Notion',            area:'David',              note:'5 usuarios × $8 USD/mes — PM, SOPs y documentación operativa'},
+  {key:'tc_linkedin',    ic:'💼', bg:'#EBF5FB', name:'LinkedIn Premium',  area:'Samuel',             note:'1 usuario × ~$30 USD/mes — prospección B2B activa'},
+  {key:'tc_meta_ads',    ic:'📣', bg:'#FEF9E7', name:'Meta Ads (pauta)',  area:'Oscar',              note:'Inversión mínima mensual en campañas — leads para Pymia'},
+  {key:'tc_misc',        ic:'🔧', bg:'#F4F6F9', name:'Dominio + extras',  area:'Mario',              note:'Dominio, hosting, APIs varias, costos misceláneos'}
+];
+const FP_SERV = [
+  {key:'c_basic', label:'Plan Básico',       price:0.65, pcop:'$650k', desc:'Alegra + DIAN + automatización base'},
+  {key:'c_std',   label:'Plan Estándar',     price:1.10, pcop:'$1.1M', desc:'+ Dashboard Google Sheets tiempo real'},
+  {key:'c_prem',  label:'Plan Premium',      price:1.80, pcop:'$1.8M', desc:'+ Diagnóstico AI + reunión mensual'},
+  {key:'c_auto',  label:'Automatización',    price:0.80, pcop:'$800k', desc:'Retainer mensual de automatizaciones'},
+  {key:'c_mktg',  label:'Marketing Digital', price:1.20, pcop:'$1.2M', desc:'Gestión campañas Meta + contenido AI'},
+];
+const TOOL_KEYS = ['tc_claude_code','tc_claude_pro','tc_claude_api','tc_alegra','tc_gworkspace','tc_falai','tc_notion','tc_linkedin','tc_meta_ads','tc_misc'];
+
+function renderFinplan(){
+  const fp = ST.finplan;
+  const rev = FP_SERV.reduce((a,s)=>({...a,[s.key]:(fp[s.key]||0)*s.price}),{});
+  const total_rev = Object.values(rev).reduce((a,b)=>a+b,0);
+  const total_costs = TOOL_KEYS.reduce((a,k)=>a+(fp[k]||0),0);
+  const gross = total_rev - total_costs;
+  const margin = total_rev>0 ? Math.round((gross/total_rev)*100) : 0;
+  const total_clients = FP_SERV.reduce((a,s)=>a+(fp[s.key]||0),0);
+
+  const tiersHTML = FP_SERV.map(s=>`
+    <div class="fp-tier">
+      <div class="fp-tier-name">${s.label}</div>
+      <div class="fp-tier-price">${s.pcop}/mes</div>
+      <div class="fp-tier-count" onclick="editFP('${s.key}','${s.label}')">${fp[s.key]||0}</div>
+      <div class="fp-tier-sub">clientes</div>
+    </div>`).join('');
+
+  const revLines = FP_SERV.filter(s=>(fp[s.key]||0)>0).map(s=>
+    `<div class="fp-pl-row"><span style="padding-left:12px;color:var(--mid)">${s.label} ×${fp[s.key]}</span><span style="font-weight:600">$${rev[s.key].toFixed(2)}M</span></div>`).join('');
+
+  const toolsHTML = FP_TOOLS.map(t=>`
+    <div class="fp-tool-row">
+      <div class="fp-tool-ic" style="background:${t.bg}">${t.ic}</div>
+      <div style="flex:1">
+        <div class="fp-tool-name">${t.name}</div>
+        <div class="fp-tool-area">${t.area}</div>
+        <div class="fp-tool-note">${t.note}</div>
+      </div>
+      <span class="fp-cost-val" onclick="editFPCost('${t.key}','${t.name}')">$${Math.round((fp[t.key]||0)*1000)}k/mes</span>
+    </div>`).join('');
+
+  const projRows = [
+    {label:'Q1 · Mes 1–3', months:[0,1,2], be:false},
+    {label:'Q2 · Mes 4–6', months:[3,4,5], be:true},
+    {label:'Q3 · Mes 7–9', months:[6,7,8], be:false},
+    {label:'Q4 · Mes 10–12', months:[9,10,11], be:false},
+  ].map(q=>{
+    const avgRev = q.months.reduce((a,i)=>a+MRR_T[i],0)/3;
+    const varCost = avgRev * 0.10;
+    const est_costs = total_costs + varCost;
+    const net = avgRev - est_costs;
+    const m = avgRev>0 ? Math.round((net/avgRev)*100) : 0;
+    const mc = m>=40?'var(--green)':m>=0?'var(--orange)':'var(--red)';
+    return `<tr${q.be?' class="be-row"':''}>
+      <td>${q.label}${q.be?' ⚡':''}</td>
+      <td style="color:var(--blue)">$${avgRev.toFixed(1)}M</td>
+      <td style="color:var(--orange)">$${est_costs.toFixed(1)}M</td>
+      <td style="color:${net>=0?'var(--green)':'var(--red)'}">$${net.toFixed(1)}M</td>
+      <td style="color:${mc};font-weight:700">${avgRev>0?m+'%':'—'}</td>
+    </tr>`;
+  }).join('');
+
+  const mgColor = margin>=50?'var(--green)':margin>=0?'var(--orange)':'var(--red)';
+
+  document.getElementById('finplan-content').innerHTML = `
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-title">Supuestos de ingresos</div>
+      <div class="card-sub">Clic en el número de clientes para editar · Los cálculos se actualizan automáticamente</div>
+      <div class="fp-tier-grid" style="margin-top:14px">${tiersHTML}</div>
+      <div style="margin-top:12px;padding:10px 16px;background:linear-gradient(90deg,#EBF5FB,#F8FBFF);border-radius:8px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;color:var(--mid)">${total_clients} clientes activos</span>
+        <span style="font-size:14px;font-weight:800;color:var(--blue)">MRR = $${total_rev.toFixed(2)}M COP</span>
+        <span style="font-size:11px;color:var(--mid)">Break-even: $8.7M → mes 5</span>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:18px">
+      <div class="card" style="margin-bottom:0">
+        <div class="card-title">Estado de Resultados (P&L)</div>
+        <div class="card-sub">Mes actual · costos fijos de herramientas</div>
+        <div style="margin-top:12px">
+          <div class="fp-pl-row"><span style="font-weight:700;font-size:11px;color:var(--mid);text-transform:uppercase;letter-spacing:.5px">Ingresos</span></div>
+          ${revLines||'<div class="fp-pl-row"><span style="color:var(--mid);padding-left:12px;font-style:italic">Sin clientes aún — edita los conteos arriba</span></div>'}
+          <div class="fp-pl-row subtotal"><span>Total ingresos</span><span style="color:var(--blue)">$${total_rev.toFixed(2)}M</span></div>
+          <div style="margin-top:12px"></div>
+          <div class="fp-pl-row"><span style="font-weight:700;font-size:11px;color:var(--mid);text-transform:uppercase;letter-spacing:.5px">Costos operativos</span></div>
+          <div class="fp-pl-row"><span style="padding-left:12px;color:var(--mid)">Herramientas y sistemas</span><span style="font-weight:600">$${total_costs.toFixed(2)}M</span></div>
+          <div class="fp-pl-row subtotal"><span>Total costos</span><span style="color:var(--orange)">$${total_costs.toFixed(2)}M</span></div>
+          <div style="margin-top:12px"></div>
+          <div class="fp-pl-row grand" style="color:${gross>=0?'var(--green)':'var(--red)'}"><span>UTILIDAD BRUTA</span><span>$${gross.toFixed(2)}M</span></div>
+          <div class="fp-pl-row"><span style="color:var(--mid)">Margen bruto</span><span style="font-weight:800;font-size:15px;color:${mgColor}">${margin}%</span></div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:0">
+        <div class="card-title">Indicadores vs. metas</div>
+        <div class="card-sub">Pymia año 1</div>
+        <div style="margin-top:12px">
+          <div class="fp-pl-row"><span>Break-even objetivo</span><span style="font-weight:700;color:var(--gold)">$8.7M MRR</span></div>
+          <div class="fp-pl-row"><span>En qué mes</span><span style="font-weight:700;color:var(--blue)">Mes 5</span></div>
+          <div class="fp-pl-row"><span>Meta año 1</span><span style="font-weight:700;color:var(--purple)">$23.3M MRR</span></div>
+          <div class="fp-pl-row"><span>Costos fijos herramientas</span><span style="font-weight:700;color:var(--orange)">$${total_costs.toFixed(2)}M/mes</span></div>
+          <div class="fp-pl-row"><span>Margen meta</span><span style="font-weight:700;color:var(--green)">≥ 60%</span></div>
+          <div class="fp-pl-row"><span>Clientes para break-even</span><span style="font-weight:700">~10</span></div>
+          <div class="fp-pl-row"><span style="font-weight:700">Clientes actuales</span><span style="font-size:18px;font-weight:800;color:${total_clients>=10?'var(--green)':'var(--orange)'}">${total_clients}</span></div>
+          ${total_rev>0&&total_rev<8.7?`<div style="margin-top:10px;padding:8px 12px;background:#FFF8E7;border-radius:6px;font-size:11px;color:var(--orange)">Faltan <strong>$${(8.7-total_rev).toFixed(2)}M</strong> para el break-even</div>`:''}
+          ${total_rev>=8.7?`<div style="margin-top:10px;padding:8px 12px;background:#EAFAF1;border-radius:6px;font-size:11px;color:var(--green)">¡Break-even alcanzado! ✓</div>`:''}
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-title">Herramientas y sistemas — estructura de costos</div>
+      <div class="card-sub">Clic en el costo para editarlo · TRM referencia $4,300 COP/USD · <strong>Total: $${Math.round(total_costs*1000)}k COP/mes</strong></div>
+      <div style="margin-top:12px">${toolsHTML}</div>
+      <div style="margin-top:12px;padding:10px 14px;background:#FFF8E7;border:1px solid rgba(230,126,34,.2);border-radius:8px;font-size:11px;color:var(--orange)">⚠️ No incluye compensación del equipo fundador. El break-even de $8.7M cubre costos operativos + salarios mínimos.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Proyección anual — P&L por trimestre</div>
+      <div class="card-sub">Usa los targets de MRR del plan · Costos variables = 10% del MRR adicional (escala de API + pauta)</div>
+      <div class="tt-wrap" style="margin-top:12px">
+        <table class="proj-table">
+          <thead><tr><th style="text-align:left">Período</th><th>MRR objetivo</th><th>Costos est.</th><th>Utilidad est.</th><th>Margen</th></tr></thead>
+          <tbody>${projRows}</tbody>
+        </table>
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:var(--mid)">* No incluye compensación fundadores. ⚡ = mes de break-even proyectado.</div>
+    </div>`;
+}
+function editFP(key,label){
+  const v=prompt('Clientes en '+label+':',ST.finplan[key]||0);
+  if(v===null||isNaN(+v))return;
+  ST.finplan[key]=Math.max(0,Math.round(+v));
+  save(); renderFinplan();
+}
+function editFPCost(key,label){
+  const cur=Math.round((ST.finplan[key]||0)*1000);
+  const v=prompt('Costo mensual de '+label+' (en miles de COP, ej: 430):',cur);
+  if(v===null||isNaN(+v))return;
+  ST.finplan[key]=Math.max(0,+v/1000);
+  save(); renderFinplan();
+}
 
 // ── INIT ──────────────────────────────────────────────────────
 function init(){
