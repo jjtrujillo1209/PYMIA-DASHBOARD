@@ -162,53 +162,65 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
 
 /* RESPONSIVE */
 @media(max-width:768px){
+  html,body{overflow-x:hidden;max-width:100vw}
+
   .sb{transform:translateX(-100%);transition:transform .3s;z-index:160}
   .sb.open{transform:translateX(0)}
-  .main{margin-left:0;padding:14px 12px 90px;margin-top:54px}
+  .main{margin-left:0;padding:14px 12px 90px;margin-top:54px;width:100%;min-width:0}
   .mob-bar{display:flex}
   .mob-nav{display:block}
   .mob-month{display:block}
 
-  /* grids */
+  /* grids — una columna */
   .kpi-row{grid-template-columns:repeat(2,1fr);gap:10px}
   .two-col{grid-template-columns:1fr}
   .ms-grid{grid-template-columns:1fr}
   .cgrid{grid-template-columns:1fr}
 
-  /* founder header */
-  .fh{flex-direction:column;align-items:flex-start;padding:18px 16px;gap:10px}
-  .fh-kpis{margin-left:0;width:100%;justify-content:space-between}
-  .fh-name{font-size:20px}
-  .fh-role{font-size:11px}
-
-  /* q tabs scroll */
-  .qtabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;-webkit-overflow-scrolling:touch}
-  .qt{white-space:nowrap;flex-shrink:0;padding:6px 14px;font-size:11px}
-
-  /* table scroll */
-  .tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .tt th,.tt td{white-space:nowrap;font-size:11px;padding:8px 8px}
-
-  /* charts */
-  .bar-chart{height:110px}
-
   /* cards */
-  .card{padding:14px 14px;border-radius:8px}
+  .card{padding:14px 12px;border-radius:8px;min-width:0;overflow:hidden}
   .card-title{font-size:13px}
+  .card-sub{font-size:10px}
 
-  /* page header */
+  /* página header */
   .ph h1{font-size:18px}
   .ph p{font-size:11px}
   .ph{margin-bottom:14px}
 
-  /* kpi card */
-  .kc{padding:12px 12px}
-  .kc-val{font-size:17px}
+  /* kpi cards */
+  .kc{padding:12px 10px;min-width:0}
+  .kc-val{font-size:16px}
+  .kc-sub{font-size:9px}
+
+  /* founder header — apilado */
+  .fh{flex-direction:column;align-items:flex-start;padding:16px 14px;gap:10px;overflow:hidden}
+  .fh-kpis{margin-left:0;width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .fk{padding:7px 8px}
+  .fk-val{font-size:15px}
+  .fk-lbl{font-size:9px}
+  .fh-name{font-size:19px}
+  .fh-role{font-size:11px}
+
+  /* q tabs — scroll horizontal sin desborde */
+  .qtabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .qtabs::-webkit-scrollbar{display:none}
+  .qt{white-space:nowrap;flex-shrink:0;padding:6px 12px;font-size:11px}
+
+  /* tabla — ocultar columnas secundarias, sin scroll lateral */
+  .tt-wrap{width:100%;overflow:hidden}
+  .tt{table-layout:fixed;width:100%}
+  .tt th:nth-child(2),.tt td:nth-child(2),
+  .tt th:nth-child(5),.tt td:nth-child(5){display:none}
+  .tt th,.tt td{font-size:11px;padding:8px 6px;word-break:break-word;white-space:normal}
+  .pbar{min-width:40px}
 
   /* checklist */
   .cl-pct{font-size:18px}
-  .ct{font-size:13px}
-  .cb{width:20px;height:20px}
+  .ct{font-size:13px;line-height:1.5}
+  .cb{width:22px;height:22px;flex-shrink:0}
+
+  /* kpi tracker */
+  .kt-name,.kt-val{font-size:11px}
 
   /* notes */
   .notes{font-size:13px;min-height:80px}
@@ -216,9 +228,9 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
 
 @media(max-width:380px){
   .kpi-row{grid-template-columns:1fr 1fr}
-  .fh-kpis{gap:6px}
-  .fk{padding:6px 10px}
-  .fk-val{font-size:15px}
+  .fh-kpis{grid-template-columns:repeat(3,1fr)}
+  .fk-val{font-size:13px}
+  .main{padding:12px 10px 90px;margin-top:54px}
 }
 </style>
 </head>
@@ -642,20 +654,30 @@ function buildChart(id,actual,target,pre,suf,type){
   const el=document.getElementById(id);
   const mx=Math.max(...target,0.1);
   const h=110;
-  el.innerHTML=['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12'].map((m,i)=>{
+  const isMob=window.innerWidth<=768;
+  const bars=['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12'].map((m,i)=>{
     const a=actual[i]||0, t=target[i]||0;
     const ah=Math.round((a/mx)*h), th=Math.round((t/mx)*h);
     const cur=i+1===ST.month;
     const col=cur?'var(--gold)':a>0?'var(--navy)':'#D0D6DE';
-    return `<div class="bw">
+    return `<div style="flex-shrink:0;width:${isMob?'36px':'auto'};flex:${isMob?'0 0 36px':'1'};display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end">
       <div style="position:relative;width:100%;height:${h}px;display:flex;align-items:flex-end;justify-content:center">
         ${a>0?`<div style="font-size:7px;color:var(--navy);font-weight:700;position:absolute;top:${h-ah-14}px;left:50%;transform:translateX(-50%);white-space:nowrap">${pre}${a}${suf}</div>`:''}
-        <div style="position:absolute;bottom:0;width:75%;height:${Math.max(th,1)}px;background:rgba(232,184,75,.12);border:1px dashed rgba(232,184,75,.4);border-radius:3px 3px 0 0"></div>
-        <div style="position:relative;width:75%;height:${Math.max(ah,2)}px;background:${col};border-radius:3px 3px 0 0;cursor:pointer;z-index:1;transition:opacity .2s" onclick="editBar(${i},'${type}')" title="Mes ${i+1}·Clic para editar"></div>
+        <div style="position:absolute;bottom:0;width:80%;height:${Math.max(th,1)}px;background:rgba(232,184,75,.12);border:1px dashed rgba(232,184,75,.4);border-radius:3px 3px 0 0"></div>
+        <div style="position:relative;width:80%;height:${Math.max(ah,2)}px;background:${col};border-radius:3px 3px 0 0;cursor:pointer;z-index:1;transition:opacity .2s" onclick="editBar(${i},'${type}')" title="Mes ${i+1}"></div>
       </div>
       <div style="font-size:9px;color:${cur?'var(--gold)':'var(--mid)'};font-weight:${cur?'700':'400'}">${m}</div>
     </div>`;
   }).join('');
+  if(isMob){
+    el.style.overflowX='auto';
+    el.style.webkitOverflowScrolling='touch';
+    el.style.paddingBottom='6px';
+    el.innerHTML=`<div style="display:flex;align-items:flex-end;gap:4px;height:${h+24}px;min-width:460px;padding-top:20px">${bars}</div>`;
+  } else {
+    el.style.overflowX='';
+    el.innerHTML=`<div style="display:flex;align-items:flex-end;gap:6px;height:${h+24}px;width:100%;padding-top:20px">${bars}</div>`;
+  }
 }
 function editBar(i,type){
   const cur=type==='mrr'?ST.mrr[i]:ST.clients[i];
