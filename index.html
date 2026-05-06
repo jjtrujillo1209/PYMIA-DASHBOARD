@@ -134,9 +134,114 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
 
 /* SECTION */
 .sec{display:none}.sec.active{display:block}
+
+/* MOBILE TOP BAR */
+.mob-bar{display:none;position:fixed;top:0;left:0;right:0;height:54px;background:var(--navy);z-index:200;align-items:center;padding:0 16px;gap:12px;border-bottom:2px solid var(--gold)}
+.mob-logo{font-size:18px;font-weight:900;color:#fff;letter-spacing:2px;flex:1}
+.mob-logo span{color:var(--gold)}
+.mob-logo img{height:28px;width:auto;object-fit:contain;vertical-align:middle}
+.mob-ham{background:none;border:none;cursor:pointer;padding:6px;display:flex;flex-direction:column;gap:4px}
+.mob-ham span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all .3s}
+
+/* MOBILE DRAWER OVERLAY */
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150}
+.mob-overlay.open{display:block}
+
+/* MOBILE BOTTOM NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--navy);border-top:1px solid rgba(255,255,255,.1);z-index:200;padding:6px 0 env(safe-area-inset-bottom,0)}
+.mob-nav-items{display:flex;justify-content:space-around}
+.mn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;cursor:pointer;color:rgba(255,255,255,.5);border-top:2px solid transparent;transition:all .2s;flex:1}
+.mn.active{color:var(--gold);border-top-color:var(--gold)}
+.mn-ic{font-size:18px}
+.mn-lb{font-size:9px;font-weight:600;letter-spacing:.3px}
+
+/* MONTH MOBILE SELECT */
+.mob-month{display:none;padding:10px 14px;background:#fff;border-bottom:1px solid #E8ECF0;margin-bottom:4px}
+.mob-month label{font-size:10px;color:var(--mid);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px}
+.mob-month select{width:100%;border:1px solid #E0E4EA;border-radius:6px;padding:8px 10px;font-size:13px;color:var(--dark);background:#fff;outline:none}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sb{transform:translateX(-100%);transition:transform .3s;z-index:160}
+  .sb.open{transform:translateX(0)}
+  .main{margin-left:0;padding:14px 12px 90px;margin-top:54px}
+  .mob-bar{display:flex}
+  .mob-nav{display:block}
+  .mob-month{display:block}
+
+  /* grids */
+  .kpi-row{grid-template-columns:repeat(2,1fr);gap:10px}
+  .two-col{grid-template-columns:1fr}
+  .ms-grid{grid-template-columns:1fr}
+  .cgrid{grid-template-columns:1fr}
+
+  /* founder header */
+  .fh{flex-direction:column;align-items:flex-start;padding:18px 16px;gap:10px}
+  .fh-kpis{margin-left:0;width:100%;justify-content:space-between}
+  .fh-name{font-size:20px}
+  .fh-role{font-size:11px}
+
+  /* q tabs scroll */
+  .qtabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+  .qt{white-space:nowrap;flex-shrink:0;padding:6px 14px;font-size:11px}
+
+  /* table scroll */
+  .tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tt th,.tt td{white-space:nowrap;font-size:11px;padding:8px 8px}
+
+  /* charts */
+  .bar-chart{height:110px}
+
+  /* cards */
+  .card{padding:14px 14px;border-radius:8px}
+  .card-title{font-size:13px}
+
+  /* page header */
+  .ph h1{font-size:18px}
+  .ph p{font-size:11px}
+  .ph{margin-bottom:14px}
+
+  /* kpi card */
+  .kc{padding:12px 12px}
+  .kc-val{font-size:17px}
+
+  /* checklist */
+  .cl-pct{font-size:18px}
+  .ct{font-size:13px}
+  .cb{width:20px;height:20px}
+
+  /* notes */
+  .notes{font-size:13px;min-height:80px}
+}
+
+@media(max-width:380px){
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .fh-kpis{gap:6px}
+  .fk{padding:6px 10px}
+  .fk-val{font-size:15px}
+}
 </style>
 </head>
 <body>
+
+<!-- MOBILE TOP BAR -->
+<div class="mob-bar">
+  <div class="mob-logo">
+    <img src="pymia_logo.png" alt="PYMIA" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none">PY<span style="color:var(--gold)">M</span>IA</span>
+  </div>
+  <select id="mobMonthSel" onchange="setMonth(+this.value)" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:5px 8px;border-radius:6px;font-size:11px;cursor:pointer">
+    <option value="1">Mes 1</option><option value="2">Mes 2</option><option value="3">Mes 3</option>
+    <option value="4">Mes 4</option><option value="5">Mes 5</option><option value="6">Mes 6</option>
+    <option value="7">Mes 7</option><option value="8">Mes 8</option><option value="9">Mes 9</option>
+    <option value="10">Mes 10</option><option value="11">Mes 11</option><option value="12">Mes 12</option>
+  </select>
+  <button class="mob-ham" onclick="toggleDrawer()">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+
+<!-- DRAWER OVERLAY -->
+<div class="mob-overlay" id="mob-overlay" onclick="toggleDrawer()"></div>
 
 <!-- SIDEBAR -->
 <aside class="sb">
@@ -263,10 +368,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
 
   <div class="card">
     <div class="card-title" style="margin-bottom:14px">Estado del Equipo</div>
+    <div class="tt-wrap">
     <table class="tt">
       <thead><tr><th>Founder</th><th>Rol</th><th>Trimestre</th><th>Avance objetivos</th><th>KPI crítico</th><th>Estado</th></tr></thead>
       <tbody id="team-tbody"></tbody>
     </table>
+    </div>
   </div>
 </section>
 
@@ -407,6 +514,18 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EAECEF;color:var(--dark
 
 </main>
 
+<!-- MOBILE BOTTOM NAV -->
+<div class="mob-nav">
+  <div class="mob-nav-items">
+    <div class="mn active" id="mn-dashboard" onclick="nav('dashboard',null);setMobNav('dashboard')"><div class="mn-ic">📊</div><div class="mn-lb">Dashboard</div></div>
+    <div class="mn" id="mn-oscar" onclick="nav('oscar',null);setMobNav('oscar')"><div class="mn-ic">🎯</div><div class="mn-lb">Oscar</div></div>
+    <div class="mn" id="mn-mario" onclick="nav('mario',null);setMobNav('mario')"><div class="mn-ic">📈</div><div class="mn-lb">Mario</div></div>
+    <div class="mn" id="mn-samuel" onclick="nav('samuel',null);setMobNav('samuel')"><div class="mn-ic">🚀</div><div class="mn-lb">Samuel</div></div>
+    <div class="mn" id="mn-david" onclick="nav('david',null);setMobNav('david')"><div class="mn-ic">⚙️</div><div class="mn-lb">David</div></div>
+    <div class="mn" id="mn-juanjo" onclick="nav('juanjo',null);setMobNav('juanjo')"><div class="mn-ic">👑</div><div class="mn-lb">Juan Jo</div></div>
+  </div>
+</div>
+
 <script>
 // ── DATA ──────────────────────────────────────────────────────
 const OBJ = {
@@ -481,12 +600,25 @@ let ST = loadState() || mkState();
 FOUNDERS.forEach(f=>{if(!ST.founders[f])ST.founders[f]=mkState().founders[f]});
 function save(){localStorage.setItem('pymia_v2',JSON.stringify(ST))}
 
+// ── MOBILE ────────────────────────────────────────────────────
+function toggleDrawer(){
+  document.querySelector('.sb').classList.toggle('open');
+  document.getElementById('mob-overlay').classList.toggle('open');
+}
+function setMobNav(id){
+  document.querySelectorAll('.mn').forEach(n=>n.classList.remove('active'));
+  const el=document.getElementById('mn-'+id);
+  if(el)el.classList.add('active');
+  if(window.innerWidth<=768&&document.querySelector('.sb').classList.contains('open'))toggleDrawer();
+}
+
 // ── NAV ───────────────────────────────────────────────────────
 function nav(id,el){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
   document.getElementById('s-'+id).classList.add('active');
   document.querySelectorAll('.nb').forEach(n=>n.classList.remove('active'));
-  el.classList.add('active');
+  if(el)el.classList.add('active');
+  setMobNav(id);
   if(id!=='dashboard') renderFounder(id);
 }
 
@@ -495,6 +627,9 @@ function setMonth(m){
   ST.month=m; save();
   document.getElementById('d-month').textContent=m;
   document.getElementById('d-quarter').textContent=Q_NAMES[m-1];
+  document.getElementById('monthSel').value=m;
+  const mob=document.getElementById('mobMonthSel');
+  if(mob)mob.value=m;
   buildCharts(); updateMilestones(); updateTeamTable();
 }
 
@@ -706,6 +841,8 @@ function saveNote(f,v){ST.founders[f].note=v; save()}
 // ── INIT ──────────────────────────────────────────────────────
 function init(){
   document.getElementById('monthSel').value=ST.month;
+  const mob=document.getElementById('mobMonthSel');
+  if(mob)mob.value=ST.month;
   document.getElementById('d-month').textContent=ST.month;
   document.getElementById('d-quarter').textContent=Q_NAMES[ST.month-1];
   document.getElementById('d-mrr').textContent=ST.kpis.mrr||'$0M';
