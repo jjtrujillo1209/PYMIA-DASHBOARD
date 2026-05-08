@@ -647,8 +647,7 @@ function mkState(){
     finplan:{
       c_basic:0, c_std:0, c_prem:0, c_auto:0, c_mktg:0,
       tc_claude_code:0.43, tc_claude_pro:0.09, tc_claude_api:0.22,
-      tc_alegra:0.20, tc_gworkspace:0.13, tc_falai:0.13,
-      tc_notion:0.17, tc_linkedin:0.13, tc_meta_ads:0.86, tc_misc:0.10
+      tc_alegra:0.20, tc_meta_ads:0.86, tc_misc:0.10
     }
   };
 }
@@ -914,10 +913,6 @@ const FP_TOOLS = [
   {key:'tc_claude_pro',  ic:'🤖', bg:'#EBF5FB', name:'Claude Pro / Max',  area:'Oscar',              note:'1 usuario × $20 USD/mes — generación de contenido AI'},
   {key:'tc_claude_api',  ic:'⚡', bg:'#E8F8F5', name:'Claude API',        area:'Mario (clientes)',   note:'Uso variable — diagnósticos financieros AI por cliente'},
   {key:'tc_alegra',      ic:'📊', bg:'#FFF8E7', name:'Alegra Contador',   area:'Mario',              note:'Plan multi-empresa — instalación + gestión para clientes'},
-  {key:'tc_gworkspace',  ic:'📁', bg:'#EAFAF1', name:'Google Workspace',  area:'Todo el equipo',     note:'5 usuarios × $6 USD/mes — Drive, GAS, Meet, Calendar, Gmail'},
-  {key:'tc_falai',       ic:'🎨', bg:'#FDEDEC', name:'Fal.ai',            area:'Oscar',              note:'Uso variable — imágenes AI para contenido y campañas'},
-  {key:'tc_notion',      ic:'📝', bg:'#F5EEF8', name:'Notion',            area:'David',              note:'5 usuarios × $8 USD/mes — PM, SOPs y documentación operativa'},
-  {key:'tc_linkedin',    ic:'💼', bg:'#EBF5FB', name:'LinkedIn Premium',  area:'Samuel',             note:'1 usuario × ~$30 USD/mes — prospección B2B activa'},
   {key:'tc_meta_ads',    ic:'📣', bg:'#FEF9E7', name:'Meta Ads (pauta)',  area:'Oscar',              note:'Inversión mínima mensual en campañas — leads para Pymia'},
   {key:'tc_misc',        ic:'🔧', bg:'#F4F6F9', name:'Dominio + extras',  area:'Mario',              note:'Dominio, hosting, APIs varias, costos misceláneos'}
 ];
@@ -928,7 +923,7 @@ const FP_SERV = [
   {key:'c_auto',  label:'Automatización',    price:0.80, pcop:'$800k', desc:'Retainer mensual de automatizaciones'},
   {key:'c_mktg',  label:'Marketing Digital', price:1.20, pcop:'$1.2M', desc:'Gestión campañas Meta + contenido AI'},
 ];
-const TOOL_KEYS = ['tc_claude_code','tc_claude_pro','tc_claude_api','tc_alegra','tc_gworkspace','tc_falai','tc_notion','tc_linkedin','tc_meta_ads','tc_misc'];
+const TOOL_KEYS = ['tc_claude_code','tc_claude_pro','tc_claude_api','tc_alegra','tc_meta_ads','tc_misc'];
 
 function renderFinplan(){
   const fp = ST.finplan;
